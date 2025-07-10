@@ -27,6 +27,9 @@ import { Heatmap } from "@/components/Heatmap"
 import { Popup } from "@/components/Popup"
 import { useProgress } from "./ProgressContext"
 import { motion } from "framer-motion"
+import { toast } from "sonner"
+import Image from "next/image"
+
 
 const RATINGS = [1200, 1350, 1500, 1650, 1800, 1950]
 const ratingOptions = [{ value: "all", label: "All Ratings" }, ...RATINGS.map(r => ({ value: String(r), label: String(r) }))]
@@ -66,6 +69,8 @@ export default function DashboardPage() {
   const [selectedRating, setSelectedRating] = useState("all");
   const [user, setUser] = useState<{ name: string; email: string; profilePicture: string } | null>(null);
   const [showPopup, setShowPopup] = useState(false);
+  const [verifying, setVerifying] = useState(false);
+  const [verifyingQuestionId, setVerifyingQuestionId] = useState<number | null>(null);
 
   const filteredQuestions = questions.filter((question) => {
     const matchesRating = selectedRating === "all" || question.rating === Number(selectedRating);
@@ -86,7 +91,7 @@ export default function DashboardPage() {
       question_title: "Longest Substring Without Repeating Characters",
       rating: 1500,
       link: "https://leetcode.com/problems/longest-substring-without-repeating-characters/",
-      status: "Attempted",
+      status: "Unsolved",
     },
     {
       question_id: 3,
@@ -107,7 +112,7 @@ export default function DashboardPage() {
       question_title: "Valid Parentheses",
       rating: 1500,
       link: "https://leetcode.com/problems/valid-parentheses/",
-      status: "Attempted",
+      status: "Solved",
     },
     {
       question_id: 6,
@@ -121,7 +126,7 @@ export default function DashboardPage() {
       question_title: "Best Time to Buy and Sell Stock",
       rating: 1500,
       link: "https://leetcode.com/problems/best-time-to-buy-and-sell-stock/",
-      status: "Attempted",
+      status: "Solved",
     },
     {
       question_id: 8,
@@ -165,12 +170,12 @@ export default function DashboardPage() {
     }
   }, [loading]);
 
-  useEffect(() => {
-    fetchQuestions(selectedRating, page);
-  }, [selectedRating, page]);
   // useEffect(() => {
-  //   setQuestions(dummyQuestions);
-  // }, []);
+  //   fetchQuestions(selectedRating, page);
+  // }, [selectedRating, page]);
+  useEffect(() => {
+    setQuestions(dummyQuestions);
+  }, []);
   
 
   const fetchProgressData = async () => {
@@ -187,21 +192,21 @@ export default function DashboardPage() {
     }
   };
 
-  useEffect(() => {
-    fetchProgressData();
-  }, [selectedRating]);
   // useEffect(() => {
-  //   setProgressData({
-  //     total_solved: 150,
-  //     solved_by_rating: {
-  //       "1350": 30,
-  //       "1500": 25,
-  //       "1650": 10,
-  //       "1800": 15,
-  //       "1950": 5,
-  //     },
-  //   });
-  // }, []);
+  //   fetchProgressData();
+  // }, [selectedRating]);
+  useEffect(() => {
+    setProgressData({
+      total_solved: 150,
+      solved_by_rating: {
+        "1350": 30,
+        "1500": 25,
+        "1650": 10,
+        "1800": 15,
+        "1950": 5,
+      },
+    });
+  }, []);
   
 
 
@@ -225,7 +230,7 @@ export default function DashboardPage() {
     }
   };
 
-  const handleStatusUpdate = async (questionId: number, newStatus: "Solved" | "Attempted" | "Unsolved", rating: number) => {
+  const handleStatusUpdate = async (questionId: number, newStatus: "Solved" | "Unsolved", rating: number) => {
     try {
       setQuestions(prev => prev.map(q => q.question_id === questionId ? { ...q, status: newStatus } : q));
       await axios.post("https://codehurdle.com/updatequestionstatus", { question_id: questionId, status: newStatus, rating }, { withCredentials: true });
@@ -270,6 +275,33 @@ export default function DashboardPage() {
       console.error("Failed to update heatmap data:", error);
     }
   }
+
+  // Only show Solved/Unsolved in status
+  const getStatus = (status: string) => (status === "Solved" ? "Solved" : "Unsolved");
+
+  // Simulate verification (replace with real API if available)
+  const handleVerifySubmission = async (question: Question) => {
+    setVerifying(true);
+    setVerifyingQuestionId(question.question_id);
+    // Simulate network delay
+    setTimeout(async () => {
+      // Simulate verification result (always success for demo)
+      const verified = true;
+      setQuestions(prev => prev.map(q =>
+        q.question_id === question.question_id
+          ? { ...q, status: verified ? "Solved" : "Unsolved" }
+          : q
+      ));
+      setVerifying(false);
+      setVerifyingQuestionId(null);
+      if (verified) {
+        toast.success("Verified your submission Successfully 🎉");
+      } else {
+        toast.error("Could not verify your submission");
+      }
+      fetchProgressData();
+    }, 2000);
+  };
 
   return (
     <>
@@ -368,7 +400,7 @@ export default function DashboardPage() {
             <TableHeader className="bg-black/30">
               <TableRow className="border-purple-800/30 hover:bg-transparent">
                 <TableHead className="text-purple-300 px-4 py-3">Problem</TableHead>
-                <TableHead className="text-purple-300 px-4 py-3 text-center">Difficulty</TableHead>
+                <TableHead className="text-purple-300 px-4 py-3 text-center">Rating</TableHead>
                 <TableHead className="text-purple-300 px-4 py-3 text-center">Status</TableHead>
                 <TableHead className="text-purple-300 px-4 py-3 text-center">Link</TableHead>
                 <TableHead className="text-purple-300 px-4 py-3 text-center">Actions</TableHead>
@@ -376,19 +408,26 @@ export default function DashboardPage() {
             </TableHeader>
             <TableBody>
               {filteredQuestions.map((question) => (
-                <TableRow key={question.question_id} className="border-purple-800/20 hover:bg-purple-950/50">
+                <TableRow key={question.question_id} className="border-purple-800/20 hover:bg-gradient-to-r from-purple-950/20 to-cyan-600/10">
                   <TableCell className="px-4 py-3">
                     <span className="text-white font-medium">{question.question_title}</span>
                   </TableCell>
                   <TableCell className="px-4 py-3 text-center">
-                    <Badge className="text-md px-4 py-1  text-white border-purple-600">
-                      {question.rating}
-                    </Badge>
+                  <Badge className="text-md px-4 py-1 text-white border border-purple-600 bg-transparent">
+                    {question.rating}
+                  </Badge>
                   </TableCell>
                   <TableCell className="px-4 py-3 text-center">
-                    <Badge className={`w-24 text-xs font-light text-white border rounded-xl px-3 py-1.5 ${question.status === "Solved" ? "bg-gradient-to-r from-purple-600 to-purple-400 text-white" : question.status === "Attempted" ? "bg-gradient-to-r from-pink-600 to-yellow-500 text-white" : " text-white border-purple-600"}`}>
-                      {question.status || "Unsolved"}
-                    </Badge>
+                  <Badge
+                    className={`w-24 text-xs font-light border rounded-xl px-3 py-1.5 ${
+                      getStatus(question.status) === "Solved"
+                        ? "bg-gradient-to-r from-purple-600 to-purple-400 text-white"
+                        : "bg-transparent text-white border-purple-600"
+                    }`}
+                  >
+                    {getStatus(question.status)}
+                  </Badge>
+
                   </TableCell>
                   <TableCell className="px-4 py-3 text-center">
                     <a href={question.link} target="_blank" rel="noopener noreferrer" className="text-purple-400 hover:text-purple-300">
@@ -397,24 +436,15 @@ export default function DashboardPage() {
                     </a>
                   </TableCell>
                   <TableCell className="px-4 py-3 text-center">
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="sm" className="text-purple-300 hover:text-white p-0 h-8 w-8">
-                          <MoreHorizontal className="h-4 w-4" />
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent className="bg-gray-950 border-purple-800/30 w-48">
-                        <DropdownMenuItem onClick={() => { handleStatusUpdate(question.question_id, "Solved", question.rating); incrementHeatmap(); }}>
-                          Mark as Solved
-                        </DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => handleStatusUpdate(question.question_id, "Attempted", question.rating)}>
-                          Mark as Attempted
-                        </DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => { handleStatusUpdate(question.question_id, "Unsolved", question.rating); decrementHeatmap(); }}>
-                          Mark as Unsolved
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="border-purple-700 text-purple-300 hover:bg-purple-800/30 hover:text-white cursor-pointer text-sm"
+                      disabled={verifying && verifyingQuestionId === question.question_id}
+                      onClick={() => handleVerifySubmission(question)}
+                    >
+                      {verifying && verifyingQuestionId === question.question_id ? "Verifying..." : "Submit"}
+                    </Button>
                   </TableCell>
                 </TableRow>
               ))}
@@ -438,6 +468,18 @@ export default function DashboardPage() {
         </div>
       </div>
       <Popup open={showPopup} onClose={() => setShowPopup(false)} onSubmit={handleProfileSubmit} user={user} />
+      {/* Loading Overlay */}
+      {verifying && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70">
+        <div className="bg-gradient-to-r from-purple-800 to-purple-400 p-8 rounded-xl flex flex-col items-center gap-4 shadow-2xl border border-purple-700">
+          <Image src="/cat.gif" alt="Verifying" height={130} width={130} />
+          <span className="text-white text-lg font-semibold text-center">
+            Verifying your submission from LeetCode, Codeforces...
+          </span>
+        </div>
+      </div>
+      
+      )}
     </>
   );
 }
