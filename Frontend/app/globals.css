@@ -74,10 +74,14 @@
   --sidebar-ring: oklch(0.708 0 0);
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
+  --card-softBackground : oklch(96.7% 0.003 264.542);
+  --card-background: white;
+  --card-border : rgba(229, 231, 235, 1);
+  --card-shadow: rgba(0, 0, 0, 0.03)
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
+  --background: rgba(0, 0, 0, 0.945);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.205 0 0);
   --card-foreground: oklch(0.985 0 0);
@@ -108,7 +112,12 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+  --card-softBackground: rgba(0, 0, 0, 0.9);
+  --card-background : rgba(255, 255, 255, 0.05);
+  --card-border: rgba(255, 255, 255, 0.1);
+  --card-shadow: rgba(46, 16, 101, 1);
 }
+
 
 html {
   scroll-behavior: smooth;

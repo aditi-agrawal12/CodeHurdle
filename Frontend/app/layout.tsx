@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { DM_Sans } from "next/font/google";
 import clsx from "clsx";
 import "./globals.css";
+import { ThemeContextProvider } from "@/context/ThemeContext";
+import ThemeProvider from "@/providers/ThemeProvider";
 
 
 
@@ -23,7 +25,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={clsx(dmSans.className, "antialiased")}>
+        <ThemeContextProvider>
+          <ThemeProvider>
         {children}
+        </ThemeProvider>
+        </ThemeContextProvider>
       </body>
     </html>
   );

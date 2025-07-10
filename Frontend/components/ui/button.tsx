@@ -11,7 +11,7 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default: cn(
-          "bg-gradient-to-r from-purple-600 to-purple-400 text-white",
+          "bg-gradient-to-r from-purple-800 to-purple-600 text-white",
           "shadow-lg shadow-purple-600/30",
           "hover:from-purple-600 hover:to-purple-800",
           "active:scale-[0.97] transform transition-transform",

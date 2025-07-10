@@ -6,6 +6,7 @@ import Link from "next/link"
 import { useState, useEffect } from "react"
 import { usePathname } from "next/navigation"
 import { FiMenu, FiX } from "react-icons/fi"
+import ThemeToggle from "./ThemeToggle/ThemeToggle"
 
 export const NavBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -61,7 +62,7 @@ export const NavBar = () => {
   ]
 
   return (
-    <header className="sticky top-0 z-50 backdrop-blur-md bg-black shadow-[0_3px_10px_rgba(128,0,255,0.25)] border-b border-purple-900">
+    <header className="sticky top-0 z-50 backdrop-blur-md bg-background shadow-lg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
         <div className="flex items-center justify-between py-4">
  
@@ -76,15 +77,15 @@ export const NavBar = () => {
           </Link>
 
        
-          <nav className="hidden md:flex items-center gap-8">
+          <nav className="hidden md:flex items-center gap-8 font-medium">
             {navItems.map((item) => (
               <Link
                 key={item.label}
                 href={item.href}
-                className={`group relative font-medium transition ${
+                className={`group relative font-md text-lg transition ${
                   activeSection === item.href
                     ? "text-purple-400"
-                    : "text-gray-300 hover:text-purple-400"
+                    : "text-foreground hover:text-purple-500"
                 }`}
               >
                 {item.label}
@@ -132,18 +133,19 @@ export const NavBar = () => {
             )}
           </nav>
 
-          <div className="hidden md:block">
+          <div className="hidden md:flex items-center gap-4">
+            <ThemeToggle />
             {isLoggedIn ? (
               <button
                 onClick={handleSignOut}
-                className="bg-gradient-to-r from-purple-600 to-purple-400 text-white py-2 px-6 rounded-full font-semibold transition hover:shadow-purple-600/50 hover:scale-105"
+                className="bg-gradient-to-r from-purple-800 to-purple-600 text-white py-2 px-6 rounded-full font-semibold transition hover:shadow-purple-600/50 hover:scale-105"
               >
                 Sign Out
               </button>
             ) : (
               <button
                 onClick={handleSignIn}
-                className="bg-gradient-to-r from-purple-600 to-purple-400 text-white py-2 px-6 rounded-full font-semibold transition hover:shadow-purple-600/50 hover:scale-105"
+                className="bg-gradient-to-r from-purple-800 to-purple-600 text-white py-2 px-6 rounded-full font-semibold transition hover:shadow-purple-600/50 hover:scale-105"
               >
                 Sign In
               </button>
@@ -151,10 +153,12 @@ export const NavBar = () => {
           </div>
 
 
-          <div className="md:hidden">
+
+          <div className="md:hidden flex gap-4 items-center">
+            <ThemeToggle/>
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="text-purple-400 focus:outline-none"
+              className="text-purple-800 focus:outline-none"
             >
               {isMenuOpen ? <FiX size={24} /> : <FiMenu size={24} />}
             </button>
@@ -202,7 +206,7 @@ export const NavBar = () => {
                 </Link>
                 <button
                   onClick={handleSignOut}
-                  className="w-full text-white bg-gradient-to-r from-purple-600 to-purple-400 py-2 rounded-full font-semibold mt-2 hover:shadow-purple-500/50 transition"
+                  className="w-full text-white bg-gradient-to-r from-purple-800 to-purple-600 py-2 rounded-full font-semibold mt-2 hover:shadow-purple-500/50 transition"
                 >
                   Sign Out
                 </button>
@@ -212,7 +216,7 @@ export const NavBar = () => {
             {!isLoggedIn && (
               <button
                 onClick={handleSignIn}
-                className="w-full text-white bg-gradient-to-r from-purple-600 to-purple-400 py-2 rounded-full font-semibold transition hover:shadow-purple-500/50"
+                className="w-full text-white bg-gradient-to-r from-purple-800 to-purple-600 py-2 rounded-full font-semibold transition hover:shadow-purple-500/50"
               >
                 Sign In
               </button>

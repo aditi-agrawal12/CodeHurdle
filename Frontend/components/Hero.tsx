@@ -11,7 +11,7 @@ export const Hero = () => {
   }
 
   return (
-    <section className="bg-black text-white py-24 px-6 sm:px-12 lg:px-20 overflow-hidden">
+    <section className="bg-background text-foreground py-24 px-6 sm:px-12 lg:px-20 overflow-hidden">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
         {/* Left Side */}
         <motion.div
@@ -21,7 +21,7 @@ export const Hero = () => {
         >
           <h1 className="text-4xl sm:text-5xl font-extrabold leading-tight mb-6 tracking-tight">
             The First Open Source Platform Integrating{" "}
-            <span className="bg-gradient-to-r from-purple-600 to-purple-400 text-transparent bg-clip-text">
+            <span className="bg-gradient-to-r from-purple-800 to-purple-600 text-transparent bg-clip-text">
               Competitive Programming
             </span>{" "}
             &{" "}
@@ -30,7 +30,7 @@ export const Hero = () => {
             </span>
           </h1>
 
-          <p className="text-lg text-gray-300 mb-8 max-w-xl leading-relaxed">
+          <p className="text-lg text-muted-foreground mb-8 max-w-xl leading-relaxed">
             Practice. Track. Compete. The open-source platform that combines
             coding challenges with real-time performance analytics.
           </p>
@@ -44,7 +44,7 @@ export const Hero = () => {
           >
             <button
               onClick={handleSignIn}
-              className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-600 to-purple-400 text-white px-6 py-3 rounded-full font-semibold shadow-md hover:scale-105 transition-transform"
+              className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-800 to-purple-600 text-white px-6 py-3 rounded-full font-semibold shadow-md hover:scale-105 transition-transform"
             >
               Start Coding Free
               <FiArrowRight />
@@ -57,7 +57,7 @@ export const Hero = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.6 }}
-            className="grid grid-cols-2 sm:grid-cols-3 gap-y-4 text-sm text-gray-400 font-medium"
+            className="grid grid-cols-2 sm:grid-cols-3 gap-y-4 text-sm text-foreground font-medium"
           >
             <div className="flex items-center gap-2">✅ Live DSA Ratings</div>
             <div className="flex items-center gap-2">✅ Open Source</div>
@@ -72,7 +72,7 @@ export const Hero = () => {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="relative w-full"
         >
-          <div className="relative w-full h-72 sm:h-96 lg:h-[420px] rounded-2xl overflow-hidden shadow-xl border border-purple-900/20">
+          <div className="relative w-full h-72 sm:h-96 lg:h-[420px] rounded-2xl overflow-hidden shadow-xl">
             <Image
               src={heroimage}
               alt="Coding laptop"
@@ -95,7 +95,7 @@ export const Hero = () => {
               </div>
               <FiBarChart2 className="text-purple-500 text-3xl" />
             </div>
-            <p className="mt-2 text-xs text-gray-500">Consistent Growth 📈</p>
+            <p className="mt-2 text-xs text-gray-600">Consistent Growth 📈</p>
           </motion.div>
         </motion.div>
       </div>

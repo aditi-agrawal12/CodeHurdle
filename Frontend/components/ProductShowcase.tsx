@@ -26,13 +26,13 @@ const features = [
 
 export const ProductShowcase = () => {
   return (
-    <section className="bg-black text-white py-24 px-4 sm:px-8">
+    <section className="bg-background text-foreground py-24 px-4 sm:px-8">
      
       <div className="max-w-3xl mx-auto text-center mb-16">
-        <h2 className="text-4xl sm:text-5xl font-extrabold bg-gradient-to-r from-purple-600 to-purple-400 text-transparent bg-clip-text">
+        <h2 className="text-4xl sm:text-5xl font-extrabold bg-gradient-to-r from-purple-800 to-purple-600 text-transparent bg-clip-text">
           Features We Are Working On...
         </h2>
-        <p className="mt-4 text-gray-400 text-lg">
+        <p className="mt-4 text-muted-foreground text-lg">
           Here's a sneak peek at upcoming features designed to level up your competitive programming prep.
         </p>
       </div>
@@ -42,22 +42,22 @@ export const ProductShowcase = () => {
         {features.map((feature, index) => (
           <div
             key={feature.title}
-            className="relative p-6 rounded-2xl border border-white/10 backdrop-blur-lg bg-white/5 overflow-hidden transition-transform duration-300 hover:scale-[1.03] hover:shadow-lg hover:shadow-purple-950 cursor-pointer"
+            className="relative p-6 rounded-xl border border-[var(--card-border)] bg-[var(--card-background)] shadow-md transition-all duration-300 hover:scale-[1.03] cursor-pointer hover:shadow-[0_10px_20px_var(--card-shadow)]"
           >
            
             <div className={`inline-block px-3 py-1 text-xs font-medium rounded-full bg-gradient-to-r ${feature.color} text-white mb-4`}>
               {feature.tag}
             </div>
 
-            <h3 className="text-xl font-bold mb-2 text-white">
+            <h3 className="text-xl font-bold mb-2 text-foreground">
               {feature.title}
             </h3>
-            <p className="text-gray-300 text-sm leading-relaxed">
+            <p className="text-muted-foreground text-sm leading-relaxed">
               {feature.description}
             </p>
 
           
-            <div className={`absolute bottom-0 right-0 w-24 h-24 bg-gradient-to-br ${feature.color} opacity-10 rounded-tl-3xl`} />
+            <div className={`absolute bottom-0 right-0 w-24 h-24 bg-gradient-to-br ${feature.color} opacity-10 rounded-tl-3xl rounded-br-xl`} />
           </div>
         ))}
       </div>

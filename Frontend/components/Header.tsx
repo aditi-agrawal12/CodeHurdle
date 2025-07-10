@@ -5,6 +5,7 @@ import { useEffect, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { Gift } from "lucide-react"
+import logoImage from "../assets/logo-nav.png"
 
 import {
   DropdownMenu,
@@ -67,7 +68,22 @@ export const Header = () => {
   }, [])
 
   return (
-    <header className="sticky top-0 z-30 w-full border-b border-purple-900 bg-black px-4 md:px-8 py-3 flex items-center justify-end shadow-md">
+    <header className="sticky top-0 z-10 flex items-center justify-between gap-4 sm:gap-6 min-h-20 border-b border-purple-900/50 backdrop-blur-sm px-4 md:px-6 bg-black/80">
+      {pathname?.startsWith("/profile") || pathname === "/rewardsstore" ? (
+        <Link href="/dashboard" className="flex items-center min-w-[120px]">
+          <Image
+            src={logoImage}
+            alt="CodeHurdle Logo"
+            width={160}
+            height={50}
+            className="h-auto w-32 sm:w-40 hover:brightness-110 transition-all"
+            priority
+          />
+        </Link>
+      ) : (
+        <div />
+      )}
+
       {/* Right Section */}
       <div className="flex items-center gap-4 sm:gap-6">
 
