@@ -25,7 +25,7 @@ export const Hero = () => {
               Competitive Programming
             </span>{" "}
             &{" "}
-            <span className="bg-gradient-to-r from-pink-600 to-yellow-400 text-transparent bg-clip-text">
+            <span className="bg-gradient-to-r from-pink-600 to-yellow-500 text-transparent bg-clip-text">
               DSA Ratings
             </span>
           </h1>

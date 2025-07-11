@@ -68,7 +68,7 @@ export const Heatmap: React.FC<HeatmapProps> = ({ data = {} }) => {
           return (
             <div key={i} className="flex flex-col items-center gap-1">
               {/* Month Grid */}
-              <div className="flex gap-[2px]">
+              <div className="flex gap-[2px] ">
                 {columns.map((col, colIndex) => (
                   <div key={colIndex} className="flex flex-col gap-[2px]">
                     {col.map((date) => {
@@ -77,7 +77,7 @@ export const Heatmap: React.FC<HeatmapProps> = ({ data = {} }) => {
                       return (
                         <div
                           key={dateKey}
-                          className={`w-4 h-4 border ${getColor(count)}`}
+                          className={`w-4 h-4 border border-gray-500 ${getColor(count)}`}
                           title={`${dateKey}: ${count} submissions`}
                         />
                       )
@@ -87,7 +87,7 @@ export const Heatmap: React.FC<HeatmapProps> = ({ data = {} }) => {
               </div>
 
               {/* Month label */}
-              <div className="text-xs text-purple-400 mt-1">{month.label}</div>
+              <div className="text-xs text-purple-500 mt-1">{month.label}</div>
             </div>
           )
         })}

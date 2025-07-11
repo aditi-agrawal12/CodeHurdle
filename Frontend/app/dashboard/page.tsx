@@ -78,78 +78,78 @@ export default function DashboardPage() {
     return matchesRating && matchesSearch;
   });
 
-  const dummyQuestions: Question[] = [
-    {
-      question_id: 1,
-      question_title: "Two Sum Problem",
-      rating: 1350,
-      link: "https://leetcode.com/problems/two-sum/",
-      status: "Solved",
-    },
-    {
-      question_id: 2,
-      question_title: "Longest Substring Without Repeating Characters",
-      rating: 1500,
-      link: "https://leetcode.com/problems/longest-substring-without-repeating-characters/",
-      status: "Unsolved",
-    },
-    {
-      question_id: 3,
-      question_title: "Median of Two Sorted Arrays",
-      rating: 1650,
-      link: "https://leetcode.com/problems/median-of-two-sorted-arrays/",
-      status: "Unsolved",
-    },
-    {
-      question_id: 4,
-      question_title: "Reverse Linked List",
-      rating: 1350,
-      link: "https://leetcode.com/problems/reverse-linked-list/",
-      status: "Solved",
-    },
-    {
-      question_id: 5,
-      question_title: "Valid Parentheses",
-      rating: 1500,
-      link: "https://leetcode.com/problems/valid-parentheses/",
-      status: "Solved",
-    },
-    {
-      question_id: 6,
-      question_title: "Merge Two Sorted Lists",
-      rating: 1350,
-      link: "https://leetcode.com/problems/merge-two-sorted-lists/",
-      status: "Solved",
-    },
-    {
-      question_id: 7,
-      question_title: "Best Time to Buy and Sell Stock",
-      rating: 1500,
-      link: "https://leetcode.com/problems/best-time-to-buy-and-sell-stock/",
-      status: "Solved",
-    },
-    {
-      question_id: 8,
-      question_title: "Climbing Stairs",
-      rating: 1350,
-      link: "https://leetcode.com/problems/climbing-stairs/",
-      status: "Solved",
-    },
-    {
-      question_id: 9,
-      question_title: "Binary Tree Inorder Traversal",
-      rating: 1500,
-      link: "https://leetcode.com/problems/binary-tree-inorder-traversal/",
-      status: "Unsolved",
-    },
-    {
-      question_id: 10,
-      question_title: "Word Break",
-      rating: 1800,
-      link: "https://leetcode.com/problems/word-break/",
-      status: "Unsolved",
-    },
-  ];
+  // const dummyQuestions: Question[] = [
+  //   {
+  //     question_id: 1,
+  //     question_title: "Two Sum Problem",
+  //     rating: 1350,
+  //     link: "https://leetcode.com/problems/two-sum/",
+  //     status: "Solved",
+  //   },
+  //   {
+  //     question_id: 2,
+  //     question_title: "Longest Substring Without Repeating Characters",
+  //     rating: 1500,
+  //     link: "https://leetcode.com/problems/longest-substring-without-repeating-characters/",
+  //     status: "Unsolved",
+  //   },
+  //   {
+  //     question_id: 3,
+  //     question_title: "Median of Two Sorted Arrays",
+  //     rating: 1650,
+  //     link: "https://leetcode.com/problems/median-of-two-sorted-arrays/",
+  //     status: "Unsolved",
+  //   },
+  //   {
+  //     question_id: 4,
+  //     question_title: "Reverse Linked List",
+  //     rating: 1350,
+  //     link: "https://leetcode.com/problems/reverse-linked-list/",
+  //     status: "Solved",
+  //   },
+  //   {
+  //     question_id: 5,
+  //     question_title: "Valid Parentheses",
+  //     rating: 1500,
+  //     link: "https://leetcode.com/problems/valid-parentheses/",
+  //     status: "Solved",
+  //   },
+  //   {
+  //     question_id: 6,
+  //     question_title: "Merge Two Sorted Lists",
+  //     rating: 1350,
+  //     link: "https://leetcode.com/problems/merge-two-sorted-lists/",
+  //     status: "Solved",
+  //   },
+  //   {
+  //     question_id: 7,
+  //     question_title: "Best Time to Buy and Sell Stock",
+  //     rating: 1500,
+  //     link: "https://leetcode.com/problems/best-time-to-buy-and-sell-stock/",
+  //     status: "Solved",
+  //   },
+  //   {
+  //     question_id: 8,
+  //     question_title: "Climbing Stairs",
+  //     rating: 1350,
+  //     link: "https://leetcode.com/problems/climbing-stairs/",
+  //     status: "Solved",
+  //   },
+  //   {
+  //     question_id: 9,
+  //     question_title: "Binary Tree Inorder Traversal",
+  //     rating: 1500,
+  //     link: "https://leetcode.com/problems/binary-tree-inorder-traversal/",
+  //     status: "Unsolved",
+  //   },
+  //   {
+  //     question_id: 10,
+  //     question_title: "Word Break",
+  //     rating: 1800,
+  //     link: "https://leetcode.com/problems/word-break/",
+  //     status: "Unsolved",
+  //   },
+  // ];
   
 
   const fetchQuestions = useCallback(async (rating: string | number, pageNumber: number) => {
@@ -170,12 +170,12 @@ export default function DashboardPage() {
     }
   }, [loading]);
 
-  // useEffect(() => {
-  //   fetchQuestions(selectedRating, page);
-  // }, [selectedRating, page]);
   useEffect(() => {
-    setQuestions(dummyQuestions);
-  }, []);
+    fetchQuestions(selectedRating, page);
+  }, [selectedRating, page]);
+  // useEffect(() => {
+  //   setQuestions(dummyQuestions);
+  // }, []);
   
 
   const fetchProgressData = async () => {
@@ -192,21 +192,22 @@ export default function DashboardPage() {
     }
   };
 
-  // useEffect(() => {
-  //   fetchProgressData();
-  // }, [selectedRating]);
   useEffect(() => {
-    setProgressData({
-      total_solved: 150,
-      solved_by_rating: {
-        "1350": 30,
-        "1500": 25,
-        "1650": 10,
-        "1800": 15,
-        "1950": 5,
-      },
-    });
-  }, []);
+    fetchProgressData();
+  }, [selectedRating]);
+  
+  // useEffect(() => {
+  //   setProgressData({
+  //     total_solved: 150,
+  //     solved_by_rating: {
+  //       "1350": 30,
+  //       "1500": 25,
+  //       "1650": 10,
+  //       "1800": 15,
+  //       "1950": 5,
+  //     },
+  //   });
+  // }, []);
   
 
 
@@ -318,24 +319,33 @@ export default function DashboardPage() {
         >
       <Card
         onClick={() => handleRatingSelect(rating)}
-        className={`cursor-pointer bg-purple-950/40 backdrop-blur-md border border-purple-800/40 shadow-md transition-all duration-300 hover:shadow-purple-800/40 ${
-          selectedRating === rating ? "ring-2 ring-purple-400" : ""
-        }`}
+        className="relative p-6 rounded-xl border border-[var(--card-border)] bg-[var(--card-background)] shadow-md transition-all duration-300 hover:scale-[1.03] cursor-pointer hover:shadow-[0_10px_20px_var(--card-shadow)]"
       >
-        <CardHeader className="pb-2">
-          <CardTitle className="text-sm text-purple-100 flex justify-between items-center">
-            {rating}
-            <Badge variant="outline" className="bg-purple-800/50 text-white text-xs border border-purple-400">
-              {solved}/{total}
-            </Badge>
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="flex flex-col gap-2">
-            <Progress value={percentage} className="h-2 bg-purple-900" />
-            <p className="text-xs text-purple-300 text-right">{percentage}%</p>
-          </div>
-        </CardContent>
+        {/* Badge */}
+        <div className="inline-block px-3 py-1 text-xs font-medium rounded-full bg-gradient-to-r from-purple-600 to-pink-500 text-white ">
+          Rating {rating}
+        </div>
+
+        {/* Title with progress count */}
+        <h3 className="text-xl font-bold mb-2 text-foreground flex justify-between items-center">
+          Problems Solved
+          <Badge variant="outline" className="bg-purple-800/50 text-white text-xs border border-purple-400">
+            {solved}/{total}
+          </Badge>
+        </h3>
+
+        {/* Progress bar */}
+        <div className="flex flex-col gap-2 ">
+          <Progress value={percentage} className="h-2 bg-purple-900" />
+          <p className="text-xs text-muted-foreground text-right">{percentage}% completed</p>
+        </div>
+
+        <div className="absolute bottom-0 right-0 w-20 h-20 bg-gradient-to-br from-purple-600 to-pink-500 opacity-10 rounded-tl-3xl rounded-br-xl" />
+
+        {/* Selected state indicator */}
+        {selectedRating === rating && (
+          <div className="absolute inset-0 ring-2 ring-purple-400 rounded-xl pointer-events-none" />
+        )}
       </Card>
     </motion.div>
   );
@@ -353,128 +363,128 @@ export default function DashboardPage() {
       )}
 
       {/* Problem Set Table */}
-      <div className="rounded-xl border border-purple-800/30 bg-gradient-to-br from-gray-900/50 to-purple-950/30 backdrop-blur-sm overflow-hidden">
-        <div className="bg-black/50 p-4 border-b border-purple-800/30">
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-            <h2 className="text-lg font-semibold text-white flex items-center gap-2">
-              <BookOpen className="h-5 w-5 text-purple-400" />
-              Problem Set
-            </h2>
-            <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
-              <div className="relative w-full sm:w-64">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-purple-400" />
-                <Input
-                  type="search"
-                  placeholder="Search problems..."
-                  className="pl-10 bg-gray-900/50 border-purple-800/50 w-full "
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                />
-              </div>
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button className="font-light">
-                    <Filter className="h-4 w-4 mr-2" />
-                    <span className="truncate">Rating: {selectedRating === "all" ? "All" : selectedRating}</span>
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="bg-gray-950 border-purple-800/30 w-[200px]">
-                  {ratingOptions.map((range) => (
-                    <DropdownMenuItem
-                      key={range.value}
-                      onClick={() => handleRatingSelect(range.value)}
-                      className={`${selectedRating === range.value ? "bg-purple-900/50" : ""}`}
-                    >
-                      {range.label}
-                    </DropdownMenuItem>
-                  ))}
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
-          </div>
+      <div className="rounded-xl border border-purple-300 dark:border-purple-800/30 bg-white dark:bg-gradient-to-br dark:from-gray-900/50 dark:to-purple-950/30 overflow-hidden">
+  {/* Header */}
+  <div className="bg-gray-50 dark:bg-black/90 p-4 border-b border-gray-200 dark:border-purple-800/30">
+    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+      <h2 className="text-lg font-semibold text-gray-900 dark:text-white flex items-center gap-2">
+        <BookOpen className="h-5 w-5 text-purple-600 dark:text-purple-400" />
+        Problem Set
+      </h2>
+      <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+        <div className="relative w-full sm:w-64">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-purple-500 dark:text-purple-400" />
+          <Input
+            type="search"
+            placeholder="Search problems..."
+            className="pl-10 bg-white dark:bg-gray-900/50 border-gray-300 dark:border-purple-800/50 w-full"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
         </div>
-
-        {/* Table Content */}
-        <div className="overflow-x-auto">
-          <Table className="min-w-full bg-black/50">
-            <TableHeader className="bg-black/30">
-              <TableRow className="border-purple-800/30 hover:bg-transparent">
-                <TableHead className="text-purple-300 px-4 py-3">Problem</TableHead>
-                <TableHead className="text-purple-300 px-4 py-3 text-center">Rating</TableHead>
-                <TableHead className="text-purple-300 px-4 py-3 text-center">Status</TableHead>
-                <TableHead className="text-purple-300 px-4 py-3 text-center">Link</TableHead>
-                <TableHead className="text-purple-300 px-4 py-3 text-center">Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {filteredQuestions.map((question) => (
-                <TableRow key={question.question_id} className="border-purple-800/20 hover:bg-gradient-to-r from-purple-950/20 to-cyan-600/10">
-                  <TableCell className="px-4 py-3">
-                    <span className="text-white font-medium">{question.question_title}</span>
-                  </TableCell>
-                  <TableCell className="px-4 py-3 text-center">
-                  <Badge className="text-md px-4 py-1 text-white border border-purple-600 bg-transparent">
-                    {question.rating}
-                  </Badge>
-                  </TableCell>
-                  <TableCell className="px-4 py-3 text-center">
-                  <Badge
-                    className={`w-24 text-xs font-light border rounded-xl px-3 py-1.5 ${
-                      getStatus(question.status) === "Solved"
-                        ? "bg-gradient-to-r from-purple-600 to-purple-400 text-white"
-                        : "bg-transparent text-white border-purple-600"
-                    }`}
-                  >
-                    {getStatus(question.status)}
-                  </Badge>
-
-                  </TableCell>
-                  <TableCell className="px-4 py-3 text-center">
-                    <a href={question.link} target="_blank" rel="noopener noreferrer" className="text-purple-400 hover:text-purple-300">
-                      <ExternalLink className="inline h-3 w-3 mr-1" />
-                      Solve
-                    </a>
-                  </TableCell>
-                  <TableCell className="px-4 py-3 text-center">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="border-purple-700 text-purple-300 hover:bg-purple-800/30 hover:text-white cursor-pointer text-sm"
-                      disabled={verifying && verifyingQuestionId === question.question_id}
-                      onClick={() => handleVerifySubmission(question)}
-                    >
-                      {verifying && verifyingQuestionId === question.question_id ? "Verifying..." : "Submit"}
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </div>
-
-        {/* Pagination */}
-        <div className="flex flex-col sm:flex-row justify-between items-center p-4 border-t border-purple-800/30 bg-black/20 gap-3">
-          <Button variant="outline" disabled={page === 1} onClick={handlePrevPage} className="gap-1 border-purple-700 text-purple-300 hover:bg-purple-900/30 w-full sm:w-auto">
-            <ChevronLeft className="h-4 w-4" />
-            Previous
-          </Button>
-          <div className="text-sm text-purple-300">
-            Page <span className="font-medium text-white">{page}</span> of 3
-          </div>
-          <Button variant="outline" disabled={!hasMore || page === 3} onClick={handleNextPage} className="gap-1 border-purple-700 text-purple-300 hover:bg-purple-900/30 w-full sm:w-auto">
-            Next
-            <ChevronRight className="h-4 w-4" />
-          </Button>
-        </div>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button className="font-light">
+              <Filter className="h-4 w-4 mr-2" />
+              <span className="truncate">Rating: {selectedRating === "all" ? "All" : selectedRating}</span>
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="bg-white dark:bg-gray-950 border-gray-200 dark:border-purple-800/30 w-[200px]">
+            {ratingOptions.map((range) => (
+              <DropdownMenuItem
+                key={range.value}
+                onClick={() => handleRatingSelect(range.value)}
+                className={`${selectedRating === range.value ? "bg-purple-100 dark:bg-purple-900/50" : ""}`}
+              >
+                {range.label}
+              </DropdownMenuItem>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
+    </div>
+  </div>
+
+  {/* Table Content */}
+  <div className="overflow-x-auto">
+    <Table className="min-w-full bg-white dark:bg-black/50">
+      <TableHeader className="bg-gray-100 dark:bg-black/30">
+        <TableRow className="border-gray-200 dark:border-purple-800/30 dark:bg-black/90">
+          <TableHead className="text-gray-700 dark:text-purple-300 px-4 py-3">Problem</TableHead>
+          <TableHead className="text-gray-700 dark:text-purple-300 px-4 py-3 text-center">Rating</TableHead>
+          <TableHead className="text-gray-700 dark:text-purple-300 px-4 py-3 text-center">Status</TableHead>
+          <TableHead className="text-gray-700 dark:text-purple-300 px-4 py-3 text-center">Link</TableHead>
+          <TableHead className="text-gray-700 dark:text-purple-300 px-4 py-3 text-center">Actions</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {filteredQuestions.map((question) => (
+          <TableRow key={question.question_id} className="border-gray-200 dark:bg-black/80 dark:border-purple-800/20 dark:hover:bg-gradient-to-r dark:from-purple-950/20 dark:to-cyan-600/10">
+            <TableCell className="px-4 py-3">
+              <span className="text-gray-900 dark:text-white font-medium">{question.question_title}</span>
+            </TableCell>
+            <TableCell className="px-4 py-3 text-center">
+              <Badge className="text-md px-4 py-1 text-purple-700 dark:text-white border border-purple-300 dark:border-purple-600 bg-transparent">
+                {question.rating}
+              </Badge>
+            </TableCell>
+            <TableCell className="px-4 py-3 text-center">
+              <Badge
+                className={`w-24 text-xs font-light border rounded-xl px-3 py-1.5 ${
+                  getStatus(question.status) === "Solved"
+                    ? "bg-gradient-to-r from-purple-600 to-purple-400 text-purple-800 text-white"
+                    : "bg-transparent text-gray-800 dark:text-white border-gray-300 dark:border-purple-600"
+                }`}
+              >
+                {getStatus(question.status)}
+              </Badge>
+            </TableCell>
+            <TableCell className="px-4 py-3 text-center">
+              <a href={question.link} target="_blank" rel="noopener noreferrer" className="text-purple-600 dark:text-purple-400 hover:text-purple-800 dark:hover:text-purple-300">
+                <ExternalLink className="inline h-3 w-3 mr-1" />
+                Solve
+              </a>
+            </TableCell>
+            <TableCell className="px-4 py-3 text-center">
+              <Button
+                variant="outline"
+                size="sm"
+                className="border-purple-500 dark:border-purple-700 text-purple-600 dark:text-purple-300 hover:bg-purple-50 dark:hover:bg-purple-800/30 hover:text-purple-700 dark:hover:text-white cursor-pointer text-sm"
+                disabled={verifying && verifyingQuestionId === question.question_id}
+                onClick={() => handleVerifySubmission(question)}
+              >
+                {verifying && verifyingQuestionId === question.question_id ? "Verifying..." : "Submit"}
+              </Button>
+            </TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
+  </div>
+
+  {/* Pagination */}
+  <div className="flex flex-col sm:flex-row justify-between items-center p-4 border-t border-gray-200 dark:border-purple-800/30 bg-gray-50 dark:bg-black/90 gap-3">
+    <Button variant="outline" disabled={page === 1} onClick={handlePrevPage} className="gap-1 border-gray-300 dark:border-purple-700 text-gray-700 dark:text-purple-300 hover:bg-purple-400 dark:hover:bg-purple-900/30 w-full sm:w-auto cursor-pointer">
+      <ChevronLeft className="h-4 w-4" />
+      Previous
+    </Button>
+    <div className="text-sm text-gray-600 dark:text-purple-300">
+      Page <span className="font-medium text-gray-900 dark:text-white">{page}</span> of 3
+    </div>
+    <Button variant="outline" disabled={!hasMore || page === 3} onClick={handleNextPage} className="gap-1 border-gray-300 dark:border-purple-700 text-gray-700 dark:text-purple-300 hover:bg-purple-400 dark:hover:bg-purple-900/30 w-full sm:w-auto cursor-pointer">
+      Next
+      <ChevronRight className="h-4 w-4" />
+    </Button>
+  </div>
+</div>
       <Popup open={showPopup} onClose={() => setShowPopup(false)} onSubmit={handleProfileSubmit} user={user} />
       {/* Loading Overlay */}
       {verifying && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70">
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70">
         <div className="bg-gradient-to-r from-purple-800 to-purple-400 p-8 rounded-xl flex flex-col items-center gap-4 shadow-2xl border border-purple-700">
           <Image src="/cat.gif" alt="Verifying" height={130} width={130} />
           <span className="text-white text-lg font-semibold text-center">
-            Verifying your submission from LeetCode, Codeforces...
+            Verifying your submission from LeetCode, Codeforces...platform
           </span>
         </div>
       </div>

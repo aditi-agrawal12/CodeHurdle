@@ -72,7 +72,7 @@ export const NavBar = () => {
               alt="Logo"
               width={160}
               height={40}
-              className="brightness-125 hover:scale-105 transition-transform"
+              className="brightness-110 hover:scale-105 transition-transform"
             />
           </Link>
 
