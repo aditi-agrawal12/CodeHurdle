@@ -1,146 +1,179 @@
 
 
-"use client";
+"use client"
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
-import Image from "next/image";
-import axios from "axios";
-import { ExternalLink } from "lucide-react";
-import { toast } from "sonner";
+import { useUserStore } from "@/lib/stores/useUserStore"
+import { useState } from "react"
+import { motion } from "framer-motion"
+import RedeemModal from "@/components/RedeemModal"
+import Image from "next/image"
+import { Coins } from "lucide-react"
+import tshirt from "@/assets/tshirt.jpg" // example image
 
-import { useTopicsStore } from "@/lib/stores/useTopicsStore";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+const rewardItems = [
+  {
+    id: 1,
+    name: "Prize1",
+    description: "Unlock exclusive problems for 24 hours",
+    price: 500,
+    image: tshirt
+  },
+  {
+    id: 2,
+    name: "Prize2",
+    description: "Special profile badge for 7 days streak",
+    price: 1000,
+    image: "",
+    gradient: "from-purple-900 to-purple-800",
+    text: "text-pink-300"
+  },
+  {
+    id: 3,
+    name: "Prize3",
+    description: "Featured on leaderboard for 3 days",
+    price: 1500,
+    image: "",
+    gradient: "from-cyan-900 to-cyan-800",
+    text: "text-cyan-300"
+  },
+  {
+    id: 4,
+    name:"Prize4",
+    description: "All perks + exclusive solutions are available",
+    price: 3000,
+    image: "",
+    gradient: "from-fuchsia-900 to-purple-800",
+    text: "text-violet-300"
+  },
+  {
+    id: 5,
+    name:"Prize5",
+    description: "All perks + exclusive solutions are available",
+    price: 3000,
+    image: "",
+    gradient: "from-fuchsia-900 to-purple-800",
+    text: "text-violet-300"
+  },
+  {
+    id: 6,
+    name:"Prize6",
+    description: "All perks + exclusive solutions are available",
+    price: 3000,
+    image: "",
+    gradient: "from-fuchsia-900 to-purple-800",
+    text: "text-violet-300"
+  },
+  {
+    id: 7,
+    name:"Prize7",
+    description: "All perks + exclusive solutions are available",
+    price: 3000,
+    image: "",
+    gradient: "from-fuchsia-900 to-purple-800",
+    text: "text-violet-300"
+  },
+  {
+    id: 8,
+    name:"Prize8",
+    description: "All perks + exclusive solutions are available",
+    price: 3000,
+    image: "",
+    gradient: "from-fuchsia-900 to-purple-800",
+    text: "text-violet-300"
+  }
+]
 
-export default function TopicPage({ params }: { params: { slug: string } }) {
-  const router = useRouter();
+export function RewardsStore() {
+  const coins = useUserStore((state) => state.coins)
+  const deductCoins = useUserStore((state) => state.deductCoins)
 
-  /* ─ global store ─ */
-  const topics = useTopicsStore((s) => s.topics);
-  const updateStatus = useTopicsStore((s) => s.updateStatus);
+  const [selectedReward, setSelectedReward] = useState<number | null>(null)
+  const [showModal, setShowModal] = useState(false)
 
-  /* locate topic from slug */
-  const slugTitle = decodeURIComponent(params.slug).replace(/-/g, " ");
-  const topic = topics.find(
-    (t: any) => t.title.toLowerCase() === slugTitle.toLowerCase()
-  );
-
-  if (!topic) {
-    return (
-      <div className="min-h-screen flex items-center justify-center text-purple-300">
-        Topic not found
-      </div>
-    );
+  const purchaseReward = (rewardId: number, price: number) => {
+    if (coins < price) return
+    deductCoins(price)
+    setSelectedReward(rewardId)
+    setShowModal(true)
   }
 
-  /* verifying overlay state */
-  const [verifying, setVerifying] = useState(false);
-  const [verifyingId, setVerifyingId] = useState<number | null>(null);
-
-  const handleVerify = async (qid: number) => {
-    setVerifying(true);
-    setVerifyingId(qid);
-
-    try {
-
-      await axios.post(
-        "https://codehurdle.com/updatequestionstatus",
-        { question_id: qid, status: "Solved" },
-        { withCredentials: true }
-      );
-
-      updateStatus(qid, "Solved");
-      toast.success("Verified your submission 🎉");
-    } catch (err) {
-      console.error("Verification failed", err);
-      toast.error("Could not verify submission. Try again.");
-    } finally {
-      setVerifying(false);
-      setVerifyingId(null);
-    }
-  };
+  const handleFormSubmit = (data: {
+    fullName: string
+    email: string
+    contact: string
+  }) => {
+    console.log("✅ Order Placed:", {
+      rewardId: selectedReward,
+      ...data
+    })
+    setShowModal(false)
+  }
 
   return (
-    <div className="p-6 min-h-screen bg-gradient-to-b from-black to-purple-950/90 text-white">
-      {/* header */}
-      <header className="mb-6 flex items-center gap-4 flex-wrap">
-        <h1 className="text-2xl font-bold text-purple-300 capitalize">
-          {topic.title}
-        </h1>
-        <button onClick={() => router.back()} className="text-sm text-purple-400 underline">
-          ← back
-        </button>
-      </header>
+    <div className="p-4 max-w-7xl mx-auto bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-cyan-900/20 via-gray-950 to-purple-900/30">
+      <h2 className="text-3xl font-bold bg-gradient-to-r from-cyan-300 to-purple-400 bg-clip-text text-transparent mb-8 text-center">
+        Rewards Store
+      </h2>
 
-      {/* sub‑topic sections */}
-      <div className="space-y-10">
-        {topic.subtopics.map((sub: any) => (
-          <section key={sub.title} className="space-y-4">
-            <h2 className="text-lg font-semibold text-purple-200 border-b border-purple-700 pb-1">
-              {sub.title}
-            </h2>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {rewardItems.map((reward) => {
+          const canAfford = coins >= reward.price
 
-            <div className="space-y-3">
-              {sub.questions.map((q: any) => (
-                <div
-                  key={q.question_id}
-                  className="flex justify-between items-center bg-gray-900/60 rounded-xl p-4 border border-purple-800/30 hover:shadow-lg hover:shadow-purple-800/20 transition-all"
-                >
-                  {/* title + status */}
-                  <div className="flex items-center gap-4 flex-wrap">
-                    <span className="text-white font-medium">{q.question_title}</span>
-                    <Badge
-                      className={`text-xs font-light px-3 py-1.5 rounded-xl border ${
-                        q.status === "Solved"
-                          ? "bg-gradient-to-r from-purple-600 to-purple-400 text-white"
-                          : "bg-transparent text-white border-purple-600"
-                      }`}
-                    >
-                      {q.status}
-                    </Badge>
-                  </div>
+          return (
+            <motion.div
+              key={reward.id}
+              whileHover={{ scale: 1.02 }}
+              className="rounded-xl overflow-hidden bg-white shadow-lg border border-gray-200 flex flex-col"
+            >
+              <div className="relative w-full h-48 sm:h-56 md:h-60 bg-gradient-to-br from-purple-900 to-purple-950">
+                <Image
+                  src={reward.image}
+                  alt={reward.name}
+                  fill
+                  className="object-cover"
+                />
+              </div>
 
-                  {/* actions */}
-                  <div className="flex items-center gap-3">
-                    <Link
-                      href={q.link}
-                      target="_blank"
-                      className="text-purple-400 hover:text-purple-300 flex items-center"
-                    >
-                      <ExternalLink className="h-4 w-4 mr-1" />
-                      Solve
-                    </Link>
-
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="border-purple-700 text-purple-300 hover:bg-purple-800/30 hover:text-white cursor-pointer text-sm"
-                      disabled={verifying && verifyingId === q.question_id || q.status === "Solved"}
-                      onClick={() => handleVerify(q.question_id)}
-                    >
-                      {verifying && verifyingId === q.question_id ? "Verifying…" : q.status === "Solved" ? "Solved" : "Submit"}
-                    </Button>
-                  </div>
+              <div className="p-4 flex flex-col flex-grow justify-between">
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-800 mb-1">
+                    {reward.name}
+                  </h3>
+                  <p className="text-sm text-gray-600">{reward.description}</p>
                 </div>
-              ))}
-            </div>
-          </section>
-        ))}
+
+                <div className="flex justify-between items-center mt-4">
+                  <span className="text-sm font-medium text-yellow-600 flex items-center gap-1">
+                    <Coins className="w-4 h-4" />
+                    {reward.price}
+                  </span>
+
+                  <button
+                    onClick={() => purchaseReward(reward.id, reward.price)}
+                    disabled={!canAfford}
+                    className={`text-xs px-4 py-1 rounded-full font-medium transition ${
+                      canAfford
+                        ? "bg-green-600 text-white hover:bg-green-500"
+                        : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                    }`}
+                  >
+                    Redeem
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          )
+        })}
       </div>
 
-      {/* verifying overlay */}
-      {verifying && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70">
-        <div className="bg-gradient-to-r from-purple-800 to-purple-400 p-8 rounded-xl flex flex-col items-center gap-4 shadow-2xl border border-purple-700">
-          <Image src="/cat.gif" alt="Verifying" height={130} width={130} />
-          <span className="text-white text-lg font-semibold text-center">
-            Verifying your submission from LeetCode, Codeforces...platform
-          </span>
-        </div>
-      </div>
-      )}
+      <RedeemModal
+        open={showModal}
+        onClose={() => setShowModal(false)}
+        onSubmit={handleFormSubmit}
+        rewardName={
+          rewardItems.find((r) => r.id === selectedReward)?.name || ""
+        }
+      />
     </div>
-  );
+  )
 }
