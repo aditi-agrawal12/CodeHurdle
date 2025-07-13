@@ -25,14 +25,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={clsx(dmSans.className, "antialiased")}>
-        <SmoothScrollerWrapper>
           <ThemeContextProvider>
             <ThemeProvider>
               {children}
               <Toaster position="top-right" richColors />
             </ThemeProvider>
           </ThemeContextProvider>
-        </SmoothScrollerWrapper>
+
       </body>
     </html>
   );
