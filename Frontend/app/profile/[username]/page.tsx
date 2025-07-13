@@ -1,4 +1,4 @@
-// app/profile/[username]/page.tsx
+
 
 import ProfileSection from "@/components/ProfileSection";
 

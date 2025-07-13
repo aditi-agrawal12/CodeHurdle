@@ -54,7 +54,7 @@ const DropdownMenuItem = ({
       className={`
         group relative flex cursor-default select-none items-center rounded-md px-3 py-2
         text-sm outline-none transition-colors
-        focus:bg-gray-800 focus:text-white
+        focus:bg-purple-400 focus:text-white
         data-[disabled]:pointer-events-none data-[disabled]:opacity-50
         ${
           variant === "destructive"
@@ -135,7 +135,7 @@ const DropdownMenuSubContent = ({
   return (
     <DropdownMenuPrimitive.SubContent
       className={`
-        z-50 min-w-[12rem] rounded-lg border border-gray-700 bg-gray-900/95 p-1.5 shadow-lg
+        z-50 min-w-[12rem] rounded-lg  bg-gray-900/95 p-1.5 shadow-lg
         backdrop-blur-md
         data-[state=open]:animate-in data-[state=closed]:animate-out
         data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0

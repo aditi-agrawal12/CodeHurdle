@@ -3,28 +3,14 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { useEffect } from "react";
-import axios from "axios";
 import { useTopicsStore } from "@/lib/stores/useTopicsStore";
 
 export default function SheetsPage() {
-  const { topics, setTopics } = useTopicsStore();
+  const { topics, fetchTopics } = useTopicsStore();
 
   useEffect(() => {
-    const fetchTopics = async () => {
-      try {
-        const response = await axios.get("https://codehurdle.com/gettopics", {
-          withCredentials: true
-        });
-        setTopics(response.data || []);
-      } catch (err) {
-        console.error("Error fetching topics:", err);
-      }
-    };
-
-    if (topics.length === 0) {
-      fetchTopics();
-    }
-  }, [topics.length, setTopics]);
+    if (topics.length === 0) fetchTopics();
+  }, [topics.length, fetchTopics]);
 
   const progress = (qs: any[]) => {
     const total = qs.length;
@@ -68,20 +54,20 @@ export default function SheetsPage() {
             </div>
             <span className="text-sm text-muted-foreground">{allPct}%</span>
           </div>
-          
+
           <div>
             <h3 className="text-lg font-semibold text-foreground mb-1">
               {allSol}/{allTot} Problems Solved
             </h3>
             <div className="w-full h-1.5 bg-gray-200 dark:bg-gray-800 rounded-full overflow-hidden">
-              <div 
-                className="h-full bg-gradient-to-r from-purple-500 to-pink-500 transition-all duration-500" 
-                style={{ width: `${allPct}%` }} 
+              <div
+                className="h-full bg-gradient-to-r from-purple-500 to-pink-500 transition-all duration-500"
+                style={{ width: `${allPct}%` }}
               />
             </div>
           </div>
         </div>
-        
+
         <div className="absolute bottom-0 right-0 w-20 h-20 bg-gradient-to-br from-purple-500 to-pink-500 opacity-10 rounded-tl-2xl rounded-br-2xl" />
       </div>
 
@@ -91,38 +77,50 @@ export default function SheetsPage() {
           const { total, solved, pct } = progress(
             t.subtopics.flatMap((s: any) => s.questions)
           );
-          
-          const gradient = pct >= 75 ? "from-green-500 to-teal-500" :
-                          pct >= 50 ? "from-blue-500 to-cyan-500" :
-                          pct >= 25 ? "from-yellow-500 to-amber-500" :
-                          "from-purple-500 to-pink-500";
+
+          const gradient =
+            pct >= 75
+              ? "from-green-500 to-teal-500"
+              : pct >= 50
+              ? "from-blue-500 to-cyan-500"
+              : pct >= 25
+              ? "from-yellow-500 to-amber-500"
+              : "from-purple-500 to-pink-500";
 
           return (
             <Link
               key={t.title}
-              href={`/dashboard/sheet/${t.title.toLowerCase().replace(/\s+/g, "-")}`}
+              href={`/dashboard/sheet/${t.title
+                .toLowerCase()
+                .replace(/\s+/g, "-")}`}
             >
               <motion.div
                 whileHover={{ scale: 1.03 }}
                 className="relative p-6 rounded-xl border border-[var(--card-border)] bg-[var(--card-background)] shadow-md transition-all duration-300 cursor-pointer hover:shadow-[0_10px_20px_var(--card-shadow)] h-full"
               >
-                <div className={`inline-block px-3 py-1 text-xs font-medium rounded-full bg-gradient-to-r ${gradient} text-white mb-4`}>
+                <div
+                  className={`inline-block px-3 py-1 text-xs font-medium rounded-full bg-gradient-to-r ${gradient} text-white mb-4`}
+                >
                   {t.title}
                 </div>
 
                 <h3 className="text-xl font-bold mb-2 text-foreground">
                   {solved}/{total} Solved
                 </h3>
-                
+
                 <div className="w-full h-2 bg-gray-200 dark:bg-gray-800 rounded-full overflow-hidden mb-2">
-                  <div 
-                    className="h-full bg-gradient-to-r from-purple-500 to-pink-500" 
-                    style={{ width: `${pct}%` }} 
+                  <div
+                    className="h-full bg-gradient-to-r from-purple-500 to-pink-500"
+                    style={{ width: `${pct}%` }}
                   />
                 </div>
-                <p className="text-muted-foreground text-sm text-right">{pct}%</p>
+                <p className="text-muted-foreground text-sm text-right">
+                  {pct}%
+                </p>
 
-                <div className={`absolute bottom-0 right-0 w-24 h-24 bg-gradient-to-br ${gradient} opacity-10 rounded-tl-3xl rounded-br-xl`} />
+                <div
+                  className={`absolute bottom-0 right-0 w-24 h-24 bg-gradient-to-br ${gradient} opacity-10 rounded-tl-3xl rounded-br-xl`}
+                />
               </motion.div>
             </Link>
           );

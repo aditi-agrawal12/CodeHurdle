@@ -1,5 +1,3 @@
-
-
 "use client"
 
 import { useRouter, usePathname } from "next/navigation"
@@ -26,11 +24,13 @@ export const Header = () => {
   const [user, setUser] = useState<{
     name?: string
     email?: string
-    profilePicture?: string
+    profilePicture?: string;
+    username?: string;
   }>({
     name: "abc",
     email: "abc@example.com",
     profilePicture: "",
+    username: "abc"
   })
 
   const handleLogout = async () => {
@@ -58,6 +58,7 @@ export const Header = () => {
             name: data.name,
             email: data.email,
             profilePicture: data.profile_picture || "",
+            username: data.username,
           })
         } else {
           console.warn("Failed to fetch user info")
@@ -71,7 +72,7 @@ export const Header = () => {
   }, [])
 
   return (
-    <header className="sticky top-0 z-10 flex items-center justify-between gap-4 sm:gap-6 min-h-20 px-4 md:px-6 border-b border-border bg-background text-foreground shadow-md backdrop-blur-md">
+    <header className="sticky top-0 z-10 flex items-center justify-between gap-4 sm:gap-6 min-h-20 px-4 md:px-6 border-b border-border bg-background text-foreground shadow-md backdrop-blur-md overflow-x-hidden">
       {pathname?.startsWith("/profile") || pathname === "/rewardsstore" ? (
         <Link href="/dashboard" className="flex items-center min-w-[120px]">
           <Image
@@ -89,7 +90,7 @@ export const Header = () => {
 
       {/* Right Section */}
       <div className="flex items-center gap-4 sm:gap-6">
-
+        <ThemeToggle/>
         {/* Rewards */}
         <Link
           href="/rewardsstore"
@@ -105,8 +106,9 @@ export const Header = () => {
         {/* User Dropdown */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <div className="flex items-center gap-2 cursor-pointer group max-w-[160px]">
-              <p className="text-sm font-medium text-foreground truncate">
+            <div className="flex items-center gap-2 cursor-pointer group">
+              {/* Hidden on small screens, visible on sm and up */}
+              <p className="hidden sm:inline text-sm font-medium text-foreground truncate max-w-[120px]">
                 {user?.name || "Username"}
               </p>
               {user?.profilePicture ? (
@@ -132,14 +134,16 @@ export const Header = () => {
             className="min-w-[180px] mt-2 rounded-xl p-1 shadow-xl backdrop-blur-md bg-background border border-border"
           >
             <DropdownMenuItem
-              onSelect={() => router.push("/profile")}
+              onSelect={() =>
+                router.push(user?.username ? `/profile/${user.username}` : "/profile")
+              }
               className="text-sm text-foreground hover:bg-muted cursor-pointer"
             >
               Profile
             </DropdownMenuItem>
             <DropdownMenuItem
               onSelect={handleLogout}
-              className="text-sm text-red-500 hover:bg-red-500/20 cursor-pointer"
+              className="text-sm text-pink-600 hover:bg-red-500/20 cursor-pointer"
             >
               Logout
             </DropdownMenuItem>

@@ -167,7 +167,7 @@ export const NavBar = () => {
 
 
         {isMenuOpen && (
-          <div className="md:hidden bg-black/95 backdrop-blur-lg rounded-xl px-4 py-4 border border-purple-800 space-y-4 origin-top transform overflow-hidden">
+          <div className="md:hidden bg-background backdrop-blur-lg rounded-xl px-4 py-4 border border-purple-800 space-y-4 origin-top transform overflow-hidden">
             {navItems.map((item) => (
               <Link
                 key={item.label}
@@ -175,7 +175,7 @@ export const NavBar = () => {
                 className={`block font-medium transition ${
                   activeSection === item.href
                     ? "text-purple-400"
-                    : "text-gray-300 hover:text-purple-400"
+                    : "text-foreground hover:text-purple-400"
                 }`}
               >
                 {item.label}

@@ -1,5 +1,3 @@
-
-
 "use client";
 
 import { useState, useEffect } from "react";
@@ -95,14 +93,14 @@ export default function EditProfilePage({ params }: EditPageProps) {
   };
 
   return (
-    <div className="flex h-screen bg-black text-white overflow-hidden">
+    <div className="flex h-screen bg-background text-foreground overflow-hidden">
       <div className="flex-1 flex flex-col overflow-auto max-w-[1600px] mx-auto w-full">
         <Header />
         <main className="p-4 md:p-6 overflow-y-auto">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* Left Section: Profile Image + Bio */}
             <div className="lg:col-span-1">
-              <div className="relative p-6 rounded-xl border border-white/10 backdrop-blur-lg bg-white/5 hover:shadow-lg transition duration-300">
+              <div className="relative p-6 rounded-xl border border-border bg-card hover:shadow-lg transition duration-300">
                 <div className="flex flex-col items-center gap-4">
                   <div className="relative w-32 h-32 rounded-full overflow-hidden border-4 border-purple-500">
                     {preview ? (
@@ -121,7 +119,7 @@ export default function EditProfilePage({ params }: EditPageProps) {
                   </div>
 
                   <label className="cursor-pointer">
-                    <div className="bg-purple-900/50 border border-purple-700 hover:bg-purple-800 text-sm px-4 py-2 rounded-md text-white text-center w-fit flex items-center gap-2">
+                    <div className="bg-purple-900/50 dark:bg-purple-900/50 border border-purple-700 dark:border-purple-700 hover:bg-purple-800 dark:hover:bg-purple-800 text-sm px-4 py-2 rounded-md text-white dark:text-white text-center w-fit flex items-center gap-2">
                       <UploadCloud className="h-4 w-4" />
                       Change Photo
                       <input
@@ -133,7 +131,7 @@ export default function EditProfilePage({ params }: EditPageProps) {
                     </div>
                   </label>
 
-                  <p className="text-lg font-semibold text-purple-300">@{editData.username}</p>
+                  <p className="text-lg font-semibold text-purple-600 dark:text-purple-300">@{editData.username}</p>
 
                   {/* Bio */}
                   <div className="w-full">
@@ -148,7 +146,7 @@ export default function EditProfilePage({ params }: EditPageProps) {
                       onChange={handleChange}
                       rows={4}
                       placeholder="Tell us about yourself..."
-                      className="w-full rounded-md bg-gray-900/50 border border-purple-800/50 text-white px-3 py-2 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-purple-500 resize-none"
+                      className="w-full rounded-md bg-muted dark:bg-gray-900/50 border border-muted-foreground/20 dark:border-purple-800/50 text-foreground dark:text-white px-3 py-2 placeholder-muted-foreground dark:placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-purple-500 resize-none"
                     />
                   </div>
                 </div>
@@ -165,12 +163,12 @@ export default function EditProfilePage({ params }: EditPageProps) {
                   <FormInput label="Location" name="location" value={editData.location} onChange={handleChange} />
                   <FormInput label="College" name="college" value={editData.college} onChange={handleChange} />
                   <div>
-                    <label className="block text-sm text-purple-300 mb-1">Passout Batch</label>
+                    <label className="block text-sm text-purple-600 dark:text-purple-300 mb-1">Passout Batch</label>
                     <select
                       name="batch"
                       value={editData.batch}
                       onChange={handleChange}
-                      className="w-full rounded-md bg-gray-900/50 border border-purple-800/50 text-white px-3 py-2"
+                      className="w-full rounded-md bg-muted dark:bg-gray-900/50 border border-muted-foreground/20 dark:border-purple-800/50 text-foreground dark:text-white px-3 py-2"
                     >
                       <option value="2026">2026</option>
                       <option value="2027">2027</option>
@@ -184,7 +182,7 @@ export default function EditProfilePage({ params }: EditPageProps) {
                 <div className="pt-6 flex gap-4">
                   <Button
                     type="submit"
-                    className="flex-1 bg-gradient-to-r from-purple-600 to-purple-400 hover:from-purple-600 hover:to-purple-800"
+                    className="flex-1 bg-gradient-to-r from-purple-600 to-purple-400 hover:from-purple-600 hover:to-purple-800 text-white"
                   >
                     <Save className="h-4 w-4 mr-2" />
                     Save
@@ -193,7 +191,7 @@ export default function EditProfilePage({ params }: EditPageProps) {
                     type="button"
                     variant="outline"
                     onClick={() => router.push(`/profile/${params.username}`)}
-                    className="flex-1 border-purple-700 text-purple-300 hover:bg-purple-900/30"
+                    className="flex-1 border-purple-600 dark:border-purple-700 text-purple-600 dark:text-purple-300 hover:bg-purple-100 dark:hover:bg-purple-900/30"
                   >
                     Cancel
                   </Button>
@@ -222,14 +220,14 @@ const FormInput = ({
   disabled?: boolean;
 }) => (
   <div>
-    <label className="block text-sm text-purple-300 mb-1">{label}</label>
+    <label className="block text-sm text-purple-600 dark:text-purple-300 mb-1">{label}</label>
     <Input
       name={name}
       value={value}
       onChange={onChange}
       disabled={disabled}
-      className={`bg-gray-900/50 border-purple-800/50 text-white ${
-        disabled ? "text-gray-400" : ""
+      className={`bg-muted dark:bg-gray-900/50 border-muted-foreground/20 dark:border-purple-800/50 text-foreground dark:text-white ${
+        disabled ? "text-muted-foreground dark:text-gray-400" : ""
       }`}
     />
   </div>
