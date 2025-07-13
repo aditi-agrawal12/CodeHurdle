@@ -29,6 +29,7 @@ import { useProgress } from "./ProgressContext"
 import { motion } from "framer-motion"
 import { toast } from "sonner"
 import Image from "next/image"
+import VerifyingOverlay from "@/components/VerifyingOverlay"
 
 
 const RATINGS = [1200, 1350, 1500, 1650, 1800, 1950]
@@ -450,10 +451,10 @@ export default function DashboardPage() {
                 variant="outline"
                 size="sm"
                 className="border-purple-500 dark:border-purple-700 text-purple-600 dark:text-purple-300 hover:bg-purple-50 dark:hover:bg-purple-800/30 hover:text-purple-700 dark:hover:text-white cursor-pointer text-sm"
-                disabled={verifying && verifyingQuestionId === question.question_id}
+                disabled={verifying && verifyingQuestionId === question.question_id || question.status === "Solved"}
                 onClick={() => handleVerifySubmission(question)}
               >
-                {verifying && verifyingQuestionId === question.question_id ? "Verifying..." : "Submit"}
+                {verifying && verifyingQuestionId === question.question_id ? "Verifying…" : question.status === "Solved" ? "Solved" : "Submit"}
               </Button>
             </TableCell>
           </TableRow>
@@ -476,20 +477,11 @@ export default function DashboardPage() {
       <ChevronRight className="h-4 w-4" />
     </Button>
   </div>
+  
 </div>
       <Popup open={showPopup} onClose={() => setShowPopup(false)} onSubmit={handleProfileSubmit} user={user} />
       {/* Loading Overlay */}
-      {verifying && (
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70">
-        <div className="bg-gradient-to-r from-purple-800 to-purple-400 p-8 rounded-xl flex flex-col items-center gap-4 shadow-2xl border border-purple-700">
-          <Image src="/cat.gif" alt="Verifying" height={130} width={130} />
-          <span className="text-white text-lg font-semibold text-center">
-            Verifying your submission from LeetCode, Codeforces...platform
-          </span>
-        </div>
-      </div>
-      
-      )}
+      {verifying && <VerifyingOverlay/>}
     </>
   );
 }
