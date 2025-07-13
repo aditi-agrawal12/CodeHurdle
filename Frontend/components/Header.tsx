@@ -72,7 +72,12 @@ export const Header = () => {
   }, [])
 
   return (
+
     <header className="sticky top-0 z-10 flex items-center justify-between gap-4 sm:gap-6 min-h-20 px-4 md:px-6 border-b border-border bg-background text-foreground shadow-md backdrop-blur-md overflow-x-hidden">
+
+    <header className="sticky top-0 z-10 flex items-center justify-between gap-4 sm:gap-6 min-h-20 px-4 md:px-6 border-b border-border bg-background text-foreground shadow-md backdrop-blur-md">
+     
+
       {pathname?.startsWith("/profile") || pathname === "/rewardsstore" ? (
         <Link href="/dashboard" className="flex items-center min-w-[120px]">
           <Image
