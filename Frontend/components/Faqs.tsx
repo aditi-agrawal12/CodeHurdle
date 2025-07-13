@@ -77,7 +77,7 @@ const AccordianItem = ({
 
 export const FAQs = () => {
   return (
-    <div className="bg-background text-foreground py-20 relative overflow-hidden">
+    <div className="bg-background text-foreground py-20 relative overflow-hidden" id="faqs">
       <div className="container mx-auto relative z-10 px-4 sm:px-6 lg:px-8">
         {/* Heading */}
         <div className="text-center mb-16">
