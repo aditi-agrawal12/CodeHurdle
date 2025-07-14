@@ -12,10 +12,10 @@ const dmSans = DM_Sans({
   subsets: ["latin"],
 });
 
-// export const metadata: Metadata = {
-//   title: "CodeHurdle",
-//   description: "Level-Up your Problem-Solving",
-// };
+export const metadata: Metadata = {
+  title: "CodeHurdle",
+  description: "Level-Up your Problem-Solving",
+};
 
 export default function RootLayout({
   children,
@@ -25,6 +25,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={clsx(dmSans.className, "antialiased")}>
+
           <ThemeContextProvider>
             <ThemeProvider>
               {children}

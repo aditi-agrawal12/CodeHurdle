@@ -308,7 +308,7 @@ export default function DashboardPage() {
   return (
     <>
       {/* Rating Cards */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-5 gap-3 md:gap-4 mb-6">
+      <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-5 xl:grid-cols-5 gap-3 md:gap-4 mb-6">
       {Object.entries(TOTAL_PROBLEMS).map(([rating, total]) => {
       const solved = progressData.solved_by_rating?.[Number(rating)] || 0;
       const percentage = Math.round((solved / total) * 100);
@@ -328,9 +328,9 @@ export default function DashboardPage() {
         </div>
 
         {/* Title with progress count */}
-        <h3 className="text-xl font-bold mb-2 text-foreground flex justify-between items-center">
+        <h3 className="text-md md:text-xl font-bold mb-2 text-foreground flex justify-between gap-1 items-center">
           Problems Solved
-          <Badge variant="outline" className="bg-purple-800/50 text-white text-xs border border-purple-400">
+          <Badge variant="outline" className="bg-purple-800/50 text-white text-xs border border-purple-400 px-2 ">
             {solved}/{total}
           </Badge>
         </h3>
@@ -374,7 +374,7 @@ export default function DashboardPage() {
       </h2>
       <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
         <div className="relative w-full sm:w-64">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-purple-500 dark:text-purple-400" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-purple-600 dark:text-purple-500" />
           <Input
             type="search"
             placeholder="Search problems..."
@@ -384,24 +384,34 @@ export default function DashboardPage() {
           />
         </div>
         <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button className="font-light">
-              <Filter className="h-4 w-4 mr-2" />
-              <span className="truncate">Rating: {selectedRating === "all" ? "All" : selectedRating}</span>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent className="bg-white dark:bg-gray-950 border-gray-200 dark:border-purple-800/30 w-[200px]">
-            {ratingOptions.map((range) => (
-              <DropdownMenuItem
-                key={range.value}
-                onClick={() => handleRatingSelect(range.value)}
-                className={`${selectedRating === range.value ? "bg-purple-100 dark:bg-purple-900/50" : ""}`}
-              >
-                {range.label}
-              </DropdownMenuItem>
-            ))}
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button 
+            variant="ghost" 
+            className="font-light bg-gradient-to-r from-purple-600 to-purple-400 hover:from-purple-700 hover:to-purple-500 text-white dark:text-white"
+          >
+            <Filter className="h-4 w-4 mr-2 text-white" />
+            <span className="truncate">
+              Rating: {selectedRating === "all" ? "All" : selectedRating}
+            </span>
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent 
+          className="bg-white dark:bg-gray-950 border border-gray-200 dark:border-gray-800 min-w-[180px]"
+          align="start"
+        >
+          {ratingOptions.map((range) => (
+            <DropdownMenuItem
+              key={range.value}
+              onClick={() => handleRatingSelect(range.value)}
+              className={`text-purple-600 dark:text-purple-400 focus:bg-purple-50 dark:focus:bg-purple-900/20 ${
+                selectedRating === range.value ? "bg-purple-100 dark:bg-purple-900/40 font-medium" : ""
+              }`}
+            >
+              {range.label}
+            </DropdownMenuItem>
+          ))}
+        </DropdownMenuContent>
+      </DropdownMenu>
       </div>
     </div>
   </div>
